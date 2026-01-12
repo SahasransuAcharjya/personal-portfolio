@@ -122,8 +122,7 @@
                 transform: translateX(-50%);
             }
         }
-    </style>
-    <style>
+
         /* Glitch Effect */
         .glitch {
             position: relative;
@@ -208,6 +207,192 @@
                 clip: rect(10px, 9999px, 80px, 0);
             }
         }
+
+        /* Uiverse Button */
+        .button {
+            --black-700: hsla(0 0% 12% / 1);
+            --border_radius: 9999px;
+            --transtion: 0.3s ease-in-out;
+            --offset: 2px;
+
+            cursor: pointer;
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            transform-origin: center;
+
+            padding: 0.6rem 1.2rem;
+            background-color: transparent;
+
+            border: none;
+            border-radius: var(--border_radius);
+            transform: scale(calc(1 + (var(--active, 0) * 0.1)));
+
+            transition: transform var(--transtion);
+        }
+
+        .button::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            width: 100%;
+            height: 100%;
+            background-color: var(--black-700);
+
+            border-radius: var(--border_radius);
+            box-shadow: inset 0 0.5px hsl(0, 0%, 100%), inset 0 -1px 2px 0 hsl(0, 0%, 0%),
+                0px 4px 10px -4px hsla(0 0% 0% / calc(1 - var(--active, 0))),
+                0 0 0 calc(var(--active, 0) * 0.375rem) hsl(260 97% 50% / 0.75);
+
+            transition: all var(--transtion);
+            z-index: 0;
+        }
+
+        .button::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            width: 100%;
+            height: 100%;
+            background-color: hsla(260 97% 61% / 0.75);
+            background-image: radial-gradient(at 51% 89%,
+                    hsla(266, 45%, 74%, 1) 0px,
+                    transparent 50%),
+                radial-gradient(at 100% 100%, hsla(266, 36%, 60%, 1) 0px, transparent 50%),
+                radial-gradient(at 22% 91%, hsla(266, 36%, 60%, 1) 0px, transparent 50%);
+            background-position: top;
+
+            opacity: var(--active, 0);
+            border-radius: var(--border_radius);
+            transition: opacity var(--transtion);
+            z-index: 2;
+        }
+
+        .button:is(:hover, :focus-visible) {
+            --active: 1;
+        }
+
+        .button:active {
+            transform: scale(1);
+        }
+
+        .button .dots_border {
+            --size_border: calc(100% + 2px);
+
+            overflow: hidden;
+
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            width: var(--size_border);
+            height: var(--size_border);
+            background-color: transparent;
+
+            border-radius: var(--border_radius);
+            z-index: -10;
+        }
+
+        .button .dots_border::before {
+            content: "";
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transform-origin: left;
+            transform: rotate(0deg);
+
+            width: 100%;
+            height: 2rem;
+            background-color: white;
+
+            mask: linear-gradient(transparent 0%, white 120%);
+            animation: rotate 2s linear infinite;
+        }
+
+        @keyframes rotate {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .button .sparkle {
+            position: relative;
+            z-index: 10;
+
+            width: 1.25rem;
+        }
+
+        .button .sparkle .path {
+            fill: currentColor;
+            stroke: currentColor;
+
+            transform-origin: center;
+
+            color: hsl(0, 0%, 100%);
+        }
+
+        .button:is(:hover, :focus) .sparkle .path {
+            animation: path 1.5s linear 0.5s infinite;
+        }
+
+        .button .sparkle .path:nth-child(1) {
+            --scale_path_1: 1.2;
+        }
+
+        .button .sparkle .path:nth-child(2) {
+            --scale_path_2: 1.2;
+        }
+
+        .button .sparkle .path:nth-child(3) {
+            --scale_path_3: 1.2;
+        }
+
+        @keyframes path {
+
+            0%,
+            34%,
+            71%,
+            100% {
+                transform: scale(1);
+            }
+
+            17% {
+                transform: scale(var(--scale_path_1, 1));
+            }
+
+            49% {
+                transform: scale(var(--scale_path_2, 1));
+            }
+
+            83% {
+                transform: scale(var(--scale_path_3, 1));
+            }
+        }
+
+        .button .text_button {
+            position: relative;
+            z-index: 10;
+
+            background-image: linear-gradient(90deg,
+                    hsla(0 0% 100% / 1) 0%,
+                    hsla(0 0% 100% / var(--active, 0)) 120%);
+            background-clip: text;
+            -webkit-background-clip: text;
+
+            font-size: 1rem;
+            color: transparent;
+        }
     </style>
 </head>
 
@@ -224,18 +409,54 @@
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#home"
-                            class="hover:text-neonBlue transition-colors px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                        <a href="#about"
-                            class="hover:text-neonBlue transition-colors px-3 py-2 rounded-md text-sm font-medium">About</a>
-                        <a href="#skills"
-                            class="hover:text-neonBlue transition-colors px-3 py-2 rounded-md text-sm font-medium">Skills</a>
-                        <a href="#experience"
-                            class="hover:text-neonBlue transition-colors px-3 py-2 rounded-md text-sm font-medium">Experience</a>
-                        <a href="#projects"
-                            class="hover:text-neonBlue transition-colors px-3 py-2 rounded-md text-sm font-medium">Projects</a>
-                        <a href="#contact"
-                            class="px-4 py-2 rounded-full border border-neonBlue text-neonBlue hover:bg-neonBlue hover:text-black transition-all duration-300 text-sm font-medium shadow-[0_0_10px_rgba(0,243,255,0.2)] hover:shadow-neon-blue">Contact</a>
+                        <a href="#home" class="button">
+                            <div class="dots_border"></div>
+                            <svg class="sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path class="path"
+                                    d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                            </svg>
+                            <span class="text_button">Home</span>
+                        </a>
+                        <a href="#about" class="button">
+                            <div class="dots_border"></div>
+                            <svg class="sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path class="path"
+                                    d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                            </svg>
+                            <span class="text_button">About</span>
+                        </a>
+                        <a href="#skills" class="button">
+                            <div class="dots_border"></div>
+                            <svg class="sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path class="path"
+                                    d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                            </svg>
+                            <span class="text_button">Skills</span>
+                        </a>
+                        <a href="#experience" class="button">
+                            <div class="dots_border"></div>
+                            <svg class="sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path class="path"
+                                    d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                            </svg>
+                            <span class="text_button">Experience</span>
+                        </a>
+                        <a href="#projects" class="button">
+                            <div class="dots_border"></div>
+                            <svg class="sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path class="path"
+                                    d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                            </svg>
+                            <span class="text_button">Projects</span>
+                        </a>
+                        <a href="#contact" class="button">
+                            <div class="dots_border"></div>
+                            <svg class="sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path class="path"
+                                    d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                            </svg>
+                            <span class="text_button">Contact</span>
+                        </a>
                     </div>
                 </div>
                 <div class="-mr-2 flex md:hidden">
@@ -249,19 +470,55 @@
 
         <!-- Mobile Menu -->
         <div class="md:hidden hidden glass-card border-t border-gray-800" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#home" onclick="toggleMobileMenu()"
-                    class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
-                <a href="#about" onclick="toggleMobileMenu()"
-                    class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
-                <a href="#skills" onclick="toggleMobileMenu()"
-                    class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Skills</a>
-                <a href="#experience" onclick="toggleMobileMenu()"
-                    class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Experience</a>
-                <a href="#projects" onclick="toggleMobileMenu()"
-                    class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
-                <a href="#contact" onclick="toggleMobileMenu()"
-                    class="text-neonBlue block px-3 py-2 rounded-md text-base font-medium">Contact Me</a>
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col items-center gap-4">
+                <a href="#home" onclick="toggleMobileMenu()" class="button">
+                    <div class="dots_border"></div>
+                    <svg class="sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path class="path"
+                            d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                    </svg>
+                    <span class="text_button">Home</span>
+                </a>
+                <a href="#about" onclick="toggleMobileMenu()" class="button">
+                    <div class="dots_border"></div>
+                    <svg class="sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path class="path"
+                            d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                    </svg>
+                    <span class="text_button">About</span>
+                </a>
+                <a href="#skills" onclick="toggleMobileMenu()" class="button">
+                    <div class="dots_border"></div>
+                    <svg class="sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path class="path"
+                            d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                    </svg>
+                    <span class="text_button">Skills</span>
+                </a>
+                <a href="#experience" onclick="toggleMobileMenu()" class="button">
+                    <div class="dots_border"></div>
+                    <svg class="sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path class="path"
+                            d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                    </svg>
+                    <span class="text_button">Experience</span>
+                </a>
+                <a href="#projects" onclick="toggleMobileMenu()" class="button">
+                    <div class="dots_border"></div>
+                    <svg class="sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path class="path"
+                            d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                    </svg>
+                    <span class="text_button">Projects</span>
+                </a>
+                <a href="#contact" onclick="toggleMobileMenu()" class="button">
+                    <div class="dots_border"></div>
+                    <svg class="sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path class="path"
+                            d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                    </svg>
+                    <span class="text_button">Contact</span>
+                </a>
             </div>
         </div>
     </nav>
@@ -311,8 +568,9 @@
     <!-- About Section -->
     <section id="about" class="py-20 bg-black/30">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center"><span
-                    class="border-b-2 border-neonBlue pb-2">About Me</span></h2>
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
+                <span class="border-b-2 border-neonBlue pb-2">About Me</span>
+            </h2>
             <div
                 class="glass-card p-8 rounded-2xl md:p-12 text-center relative overflow-hidden group hover:border-neonBlue/30 transition-colors duration-500">
                 <div
@@ -320,10 +578,10 @@
                 </div>
                 <p class="text-lg md:text-xl text-gray-300 leading-relaxed">
                     "I leverage skills in <span class="text-neonBlue font-semibold">Data Science</span>, <span
-                        class="text-neonPurple font-semibold">AI/ML</span>, and <span
-                        class="text-white font-semibold">full-stack development</span> to build intelligent, scalable
-                    solutions. Currently pursuing a B.Tech in CSE at BPUT Rourkela and a Credit Linked Degree in Data
-                    Science at IIT Guwahati."
+                        class="text-neonPurple font-semibold">AI/ML</span>,
+                    and <span class="text-white font-semibold">full-stack development</span> to build intelligent,
+                    scalable solutions. Currently pursuing a B.Tech in CSE at BPUT Rourkela and a Credit Linked Degree
+                    in Data Science at IIT Guwahati."
                 </p>
             </div>
         </div>
@@ -332,9 +590,9 @@
     <!-- Skills Section -->
     <section id="skills" class="py-20 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center"><span
-                    class="border-b-2 border-neonPurple pb-2">Technical Arsenal</span></h2>
-
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center">
+                <span class="border-b-2 border-neonPurple pb-2">Technical Arsenal</span>
+            </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Languages -->
                 <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition-transform duration-300">
@@ -360,7 +618,6 @@
                             class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">TypeScript</span>
                     </div>
                 </div>
-
                 <!-- AI/ML/Data -->
                 <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition-transform duration-300">
                     <div
@@ -395,7 +652,6 @@
                             class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Pybrain</span>
                     </div>
                 </div>
-
                 <!-- Web Dev -->
                 <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition-transform duration-300">
                     <div
@@ -421,9 +677,6 @@
                             class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Tailwind
                             CSS</span>
                         <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Tailwind
-                            CSS</span>
-                        <span
                             class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">MongoDB</span>
                         <span
                             class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">MySQL</span>
@@ -431,7 +684,6 @@
                             class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">PostgreSQL</span>
                     </div>
                 </div>
-
                 <!-- Tools -->
                 <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition-transform duration-300">
                     <div
@@ -472,9 +724,9 @@
     <!-- Experience Section -->
     <section id="experience" class="py-20 bg-black/30">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center"><span
-                    class="border-b-2 border-neonBlue pb-2">Experience</span></h2>
-
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center">
+                <span class="border-b-2 border-neonBlue pb-2">Experience</span>
+            </h2>
             <div class="relative timeline-line pl-8 md:pl-0">
                 <!-- Role 1 -->
                 <div class="mb-12 md:flex md:justify-between md:items-center w-full group">
@@ -484,11 +736,9 @@
                         <p class="text-neonBlue text-sm mb-1">ZeroCode Innovations</p>
                         <p class="text-gray-500 text-xs mb-2">May 2025 - Aug 2025</p>
                     </div>
-
                     <div
                         class="absolute left-[7px] md:left-1/2 md:-ml-[9px] w-[18px] h-[18px] rounded-full bg-black border-4 border-neonBlue z-10 order-2">
                     </div>
-
                     <div class="md:w-5/12 order-3 md:pl-8 mt-2 md:mt-0">
                         <div class="glass-card p-4 rounded-lg">
                             <p class="text-gray-300 text-sm">Developed invoice parser web app using Tesseract OCR and
@@ -496,7 +746,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Role 2 -->
                 <div class="mb-12 md:flex md:justify-between md:items-center w-full group">
                     <div class="md:w-5/12 order-1 md:order-3 md:pl-8">
@@ -505,11 +754,9 @@
                         <p class="text-neonPurple text-sm mb-1">MindBrain Innovations</p>
                         <p class="text-gray-500 text-xs mb-2">May 2025 - Jul 2025</p>
                     </div>
-
                     <div
                         class="absolute left-[7px] md:left-1/2 md:-ml-[9px] w-[18px] h-[18px] rounded-full bg-black border-4 border-neonPurple z-10 order-2">
                     </div>
-
                     <div class="md:w-5/12 md:text-right order-3 md:order-1 md:pr-8 mt-2 md:mt-0">
                         <div class="glass-card p-4 rounded-lg">
                             <p class="text-gray-300 text-sm">Prototyped IoT sensors for real-time data collection and
@@ -517,8 +764,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <!-- Role 3 -->
                 <div class="mb-12 md:flex md:justify-between md:items-center w-full group">
                     <div class="md:w-5/12 md:text-right order-1 md:pr-8">
@@ -527,11 +772,9 @@
                         <p class="text-neonBlue text-sm mb-1">IBM</p>
                         <p class="text-gray-500 text-xs mb-2">Jun 2024 - Aug 2024</p>
                     </div>
-
                     <div
                         class="absolute left-[7px] md:left-1/2 md:-ml-[9px] w-[18px] h-[18px] rounded-full bg-black border-4 border-neonBlue z-10 order-2">
                     </div>
-
                     <div class="md:w-5/12 order-3 md:pl-8 mt-2 md:mt-0">
                         <div class="glass-card p-4 rounded-lg">
                             <p class="text-gray-300 text-sm">Analyzed large datasets with Python/SQL and created
@@ -539,7 +782,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Role 4 -->
                 <div class="mb-12 md:flex md:justify-between md:items-center w-full group">
                     <div class="md:w-5/12 order-1 md:order-3 md:pl-8">
@@ -548,20 +790,17 @@
                         <p class="text-neonPurple text-sm mb-1">National Aluminium Company Limited (NALCO)</p>
                         <p class="text-gray-500 text-xs mb-2">Jun 2024 - July 2024</p>
                     </div>
-
                     <div
                         class="absolute left-[7px] md:left-1/2 md:-ml-[9px] w-[18px] h-[18px] rounded-full bg-black border-4 border-neonPurple z-10 order-2">
                     </div>
-
                     <div class="md:w-5/12 md:text-right order-3 md:order-1 md:pr-8 mt-2 md:mt-0">
                         <div class="glass-card p-4 rounded-lg">
                             <p class="text-gray-300 text-sm">Assisted in maintaining and troubleshooting company
-                                servers, networks, and enterprise systems. Monitored system performance
-                                and implemented upgrades to improve operational efficiency.</p>
+                                servers, networks, and enterprise systems. Monitored system performance and implemented
+                                upgrades to improve operational efficiency.</p>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -569,9 +808,9 @@
     <!-- Projects Section -->
     <section id="projects" class="py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center"><span
-                    class="border-b-2 border-neonPurple pb-2">Featured Projects</span></h2>
-
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center">
+                <span class="border-b-2 border-neonPurple pb-2">Featured Projects</span>
+            </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Project 1 -->
                 <div
@@ -595,7 +834,6 @@
                         class="absolute inset-0 bg-gradient-to-br from-neonBlue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     </div>
                 </div>
-
                 <!-- Project 2 -->
                 <div
                     class="glass-card rounded-xl overflow-hidden group hover:border-neonPurple/50 transition-all duration-300 relative">
@@ -621,7 +859,6 @@
                         class="absolute inset-0 bg-gradient-to-br from-neonPurple/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     </div>
                 </div>
-
                 <!-- Project 3 -->
                 <div
                     class="glass-card rounded-xl overflow-hidden group hover:border-neonBlue/50 transition-all duration-300 relative">
@@ -644,7 +881,6 @@
                         class="absolute inset-0 bg-gradient-to-br from-neonBlue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     </div>
                 </div>
-
                 <!-- Project 4 -->
                 <div
                     class="glass-card rounded-xl overflow-hidden group hover:border-neonPurple/50 transition-all duration-300 relative">
@@ -676,8 +912,9 @@
     <!-- Achievements Section -->
     <section id="achievements" class="py-20 bg-black/30">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center"><span
-                    class="border-b-2 border-neonBlue pb-2">Achievements</span></h2>
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
+                <span class="border-b-2 border-neonBlue pb-2">Achievements</span>
+            </h2>
             <div class="space-y-6">
                 <div class="glass-card p-6 rounded-xl flex items-center gap-6 hover:bg-white/5 transition-colors">
                     <div
@@ -708,10 +945,8 @@
         <div
             class="absolute top-0 left-1/2 transform -translate-x-1/2 w-full h-1 bg-gradient-to-r from-transparent via-neonBlue to-transparent opacity-50">
         </div>
-
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-3xl font-bold mb-8">Let's Connect</h2>
-
             <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-12">
                 <a href="mailto:sahasransu.kirti@gmail.com"
                     class="flex items-center gap-3 text-gray-300 hover:text-neonBlue transition-colors">
@@ -724,7 +959,6 @@
                     <span>+91 78478 84876</span>
                 </a>
             </div>
-
             <div class="flex justify-center gap-6 mb-8">
                 <a href="https://linkedin.com/in/sahasransuacharjya" target="_blank"
                     class="w-12 h-12 rounded-full glass-card flex items-center justify-center text-gray-300 hover:text-white hover:bg-blue-600/50 transition-all duration-300 transform hover:scale-110">
@@ -735,10 +969,7 @@
                     <i class="fab fa-github text-xl"></i>
                 </a>
             </div>
-
-            <p class="text-gray-500 text-sm">
-                &copy; 2026 Sahasransu Acharjya. All rights reserved.
-            </p>
+            <p class="text-gray-500 text-sm">&copy; 2026 Sahasransu Acharjya. All rights reserved.</p>
         </div>
     </footer>
 
@@ -748,10 +979,30 @@
 
         // Hero Animations
         const tl = gsap.timeline();
-        tl.from("#home h1", { duration: 1, y: 50, opacity: 0, ease: "power3.out" })
-            .from("#home p", { duration: 1, y: 30, opacity: 0, ease: "power3.out" }, "-=0.5")
-            .from("#home .flex a", { duration: 0.8, y: 20, opacity: 0, stagger: 0.2, ease: "power3.out" }, "-=0.5")
-            .from(".animate-bounce", { duration: 1, opacity: 0, ease: "power2.in" }, "-=0.5");
+        tl.from("#home h1", {
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            ease: "power3.out"
+        })
+            .from("#home p", {
+                duration: 1,
+                y: 30,
+                opacity: 0,
+                ease: "power3.out"
+            }, "-=0.5")
+            .from("#home .flex a", {
+                duration: 0.8,
+                y: 20,
+                opacity: 0,
+                stagger: 0.2,
+                ease: "power3.out"
+            }, "-=0.5")
+            .from(".animate-bounce", {
+                duration: 1,
+                opacity: 0,
+                ease: "power2.in"
+            }, "-=0.5");
 
         // Section Headings
         gsap.utils.toArray("section h2").forEach(heading => {
@@ -848,7 +1099,6 @@
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
                 if (targetId === '#') return;
-
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
                     targetElement.scrollIntoView({

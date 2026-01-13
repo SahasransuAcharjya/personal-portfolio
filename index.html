@@ -33,25 +33,48 @@
         }
     </script>
     <style>
+        :root {
+            --bg-color: #050505;
+            --text-color: #e0e0e0;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --nav-bg: transparent;
+            --nav-bg-scrolled: rgba(5, 5, 5, 0.9);
+            --button-bg: transparent;
+            --button-text: #e0e0e0;
+            --button-text-color: #ffffff;
+            --book-bg: #1a1a1a;
+            --book-text: #e0e0e0;
+            --cover-bg: rgba(255, 255, 255, 0.05);
+        }
+
         body {
-            background-color: #050505;
-            color: #e0e0e0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* Glassmorphism */
         .glass-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--card-bg);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
         }
 
         .glass-nav {
-            background: rgba(5, 5, 5, 0.7);
+            background: var(--nav-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid transparent;
+            transition: background 0.3s ease, border-bottom 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-nav.scrolled {
+            background: var(--nav-bg-scrolled);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
 
         /* Gradient Text */
@@ -385,13 +408,76 @@
             z-index: 10;
 
             background-image: linear-gradient(90deg,
-                    hsla(0 0% 100% / 1) 0%,
-                    hsla(0 0% 100% / var(--active, 0)) 120%);
+                    var(--button-text-color) 0%,
+                    var(--button-text-color) 120%);
             background-clip: text;
             -webkit-background-clip: text;
 
             font-size: 1rem;
             color: transparent;
+        }
+
+        /* Uiverse Book Card */
+        .book {
+            position: relative;
+            border-radius: 10px;
+            width: 220px;
+            height: 300px;
+            background-color: var(--book-bg);
+            box-shadow: 1px 1px 12px #000;
+            transform: preserve-3d;
+            perspective: 2000px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--book-text);
+        }
+
+        .cover {
+            top: 0;
+            position: absolute;
+            background-color: var(--cover-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.5s;
+            transform-origin: 0;
+            box-shadow: 1px 1px 12px #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .book:hover .cover {
+            transition: all 0.5s;
+            transform: rotatey(-80deg);
+        }
+
+        .book p {
+            font-size: 20px;
+            font-weight: bolder;
+        }
+
+
+        /* Certificate Modal */
+        #cert-modal {
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        #cert-modal.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #cert-modal:not(.hidden) {
+            opacity: 1;
+            pointer-events: auto;
         }
     </style>
 </head>
@@ -457,6 +543,7 @@
                             </svg>
                             <span class="text_button">Contact</span>
                         </a>
+
                     </div>
                 </div>
                 <div class="-mr-2 flex md:hidden">
@@ -595,126 +682,146 @@
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Languages -->
-                <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition-transform duration-300">
-                    <div
-                        class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center mb-4 text-blue-400">
-                        <i class="fas fa-code text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Languages</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">C</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">C++</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Java</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">JavaScript</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Python</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">HTML/CSS</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">TypeScript</span>
-                    </div>
-                </div>
-                <!-- AI/ML/Data -->
-                <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition-transform duration-300">
-                    <div
-                        class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center mb-4 text-purple-400">
-                        <i class="fas fa-brain text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">AI & Data</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">TensorFlow</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Keras</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">PyTorch</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Scikit-learn</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Pandas</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">NumPy</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Matplotlib</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Seaborn</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Librosa</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Scipy</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Pygame</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Pybrain</span>
+                <div class="skill-card-wrapper flex justify-center">
+                    <div class="book">
+                        <div class="p-4 flex flex-wrap gap-2 justify-center content-center h-full">
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">C</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">C++</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Java</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">JavaScript</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Python</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">HTML/CSS</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">TypeScript</span>
+                        </div>
+                        <div class="cover">
+                            <div
+                                class="w-16 h-16 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                <i class="fas fa-code text-3xl"></i>
+                            </div>
+                            <p class="text-xl font-bold">Languages</p>
+                        </div>
                     </div>
                 </div>
+
+                <!-- AI & Data -->
+                <div class="skill-card-wrapper flex justify-center">
+                    <div class="book">
+                        <div class="p-4 flex flex-wrap gap-2 justify-center content-center h-full">
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">TensorFlow</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Keras</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">PyTorch</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Scikit-learn</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Pandas</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">NumPy</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Matplotlib</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Seaborn</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Librosa</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Scipy</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Pygame</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Pybrain</span>
+                        </div>
+                        <div class="cover">
+                            <div
+                                class="w-16 h-16 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
+                                <i class="fas fa-brain text-3xl"></i>
+                            </div>
+                            <p class="text-xl font-bold">AI & Data</p>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Web Dev -->
-                <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition-transform duration-300">
-                    <div
-                        class="w-12 h-12 rounded-full bg-cyan-500/20 flex items-center justify-center mb-4 text-cyan-400">
-                        <i class="fas fa-laptop-code text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Web Dev</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">React</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Next.js</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Node.js</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Flask</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">React
-                            Native</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">GSAP</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Tailwind
-                            CSS</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">MongoDB</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">MySQL</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">PostgreSQL</span>
+                <div class="skill-card-wrapper flex justify-center">
+                    <div class="book">
+                        <div class="p-4 flex flex-wrap gap-2 justify-center content-center h-full">
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">React</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Next.js</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Node.js</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Flask</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">React
+                                Native</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">GSAP</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Tailwind
+                                CSS</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">MongoDB</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">MySQL</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">PostgreSQL</span>
+                        </div>
+                        <div class="cover">
+                            <div
+                                class="w-16 h-16 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+                                <i class="fas fa-laptop-code text-3xl"></i>
+                            </div>
+                            <p class="text-xl font-bold">Web Dev</p>
+                        </div>
                     </div>
                 </div>
+
                 <!-- Tools -->
-                <div class="glass-card p-6 rounded-xl hover:-translate-y-2 transition-transform duration-300">
-                    <div
-                        class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center mb-4 text-green-400">
-                        <i class="fas fa-tools text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Tools</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Git</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">GitHub</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Figma</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Arduino</span>
-                        <span class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">VS
-                            Code</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Antigravity</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Windsurf</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Jupyter
-                            Notebook</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Google
-                            Colab</span>
-                        <span
-                            class="px-3 py-1 text-sm rounded-full bg-gray-800 border border-gray-700 text-gray-300">Google
-                            AI Studio</span>
+                <div class="skill-card-wrapper flex justify-center">
+                    <div class="book">
+                        <div class="p-4 flex flex-wrap gap-2 justify-center content-center h-full">
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Git</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">GitHub</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Figma</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Arduino</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">VS
+                                Code</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Antigravity</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Windsurf</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Jupyter
+                                Notebook</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Google
+                                Colab</span>
+                            <span
+                                class="px-2 py-1 text-xs rounded-full bg-gray-800 border border-gray-700 text-gray-300">Google
+                                AI Studio</span>
+                        </div>
+                        <div class="cover">
+                            <div
+                                class="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
+                                <i class="fas fa-tools text-3xl"></i>
+                            </div>
+                            <p class="text-xl font-bold">Tools</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -909,6 +1016,265 @@
         </div>
     </section>
 
+
+    <!-- Certificates Section -->
+    <section id="certificates" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center">
+                <span class="border-b-2 border-neonBlue pb-2">Certifications</span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Certificate: AI Fundamentals -->
+                <div class="glass-card p-4 rounded-xl cursor-pointer hover:border-neonBlue transition-all duration-300 animate-float group"
+                     
+                     onclick="openCertModal('./certs/AI%20Fundamentals.pdf', 'AI Fundamentals', 'Certificate')">
+                    <div class="relative overflow-hidden rounded-lg aspect-video mb-4">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=AI%20Fundamentals" 
+                             alt="AI Fundamentals" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="text-neonBlue font-bold">View PDF</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1 truncate" title="AI Fundamentals">AI Fundamentals</h3>
+                    <p class="text-gray-400 text-sm">PDF Document</p>
+                </div>
+                <!-- Certificate: ASE Job Sim Walmart -->
+                <div class="glass-card p-4 rounded-xl cursor-pointer hover:border-neonPurple transition-all duration-300 animate-float group"
+                     style="animation-delay: 0.1s;"
+                     onclick="openCertModal('./certs/ASE%20Job%20Sim%20Walmart.pdf', 'ASE Job Sim Walmart', 'Certificate')">
+                    <div class="relative overflow-hidden rounded-lg aspect-video mb-4">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=ASE%20Job%20Sim%20Walmart" 
+                             alt="ASE Job Sim Walmart" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="text-neonPurple font-bold">View PDF</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1 truncate" title="ASE Job Sim Walmart">ASE Job Sim Walmart</h3>
+                    <p class="text-gray-400 text-sm">PDF Document</p>
+                </div>
+                <!-- Certificate: Big Data (Sparks Fundamental 1) -->
+                <div class="glass-card p-4 rounded-xl cursor-pointer hover:border-neonBlue transition-all duration-300 animate-float group"
+                     style="animation-delay: 0.2s;"
+                     onclick="openCertModal('./certs/Big%20Data%20%28Sparks%20Fundamental%201%29.pdf', 'Big Data (Sparks Fundamental 1)', 'Certificate')">
+                    <div class="relative overflow-hidden rounded-lg aspect-video mb-4">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Big%20Data%20%28Sparks%20Fun..." 
+                             alt="Big Data (Sparks Fundamental 1)" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="text-neonBlue font-bold">View PDF</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1 truncate" title="Big Data (Sparks Fundamental 1)">Big Data (Sparks Fundamental 1)</h3>
+                    <p class="text-gray-400 text-sm">PDF Document</p>
+                </div>
+            </div>
+            <div id="more-certs" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-h-0 overflow-hidden opacity-0 transition-all duration-700 ease-in-out">
+                <!-- Certificate: Data Mining -->
+                <div class="glass-card p-4 rounded-xl cursor-pointer hover:border-neonPurple transition-all duration-300 animate-float group"
+                     style="animation-delay: 0.30000000000000004s;"
+                     onclick="openCertModal('./certs/Data%20Mining.pdf', 'Data Mining', 'Certificate')">
+                    <div class="relative overflow-hidden rounded-lg aspect-video mb-4">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Data%20Mining" 
+                             alt="Data Mining" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="text-neonPurple font-bold">View PDF</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1 truncate" title="Data Mining">Data Mining</h3>
+                    <p class="text-gray-400 text-sm">PDF Document</p>
+                </div>
+                <!-- Certificate: Gen AI Job Sim BCG  -->
+                <div class="glass-card p-4 rounded-xl cursor-pointer hover:border-neonBlue transition-all duration-300 animate-float group"
+                     style="animation-delay: 0.4s;"
+                     onclick="openCertModal('./certs/Gen%20AI%20Job%20Sim%20BCG%20.pdf', 'Gen AI Job Sim BCG ', 'Certificate')">
+                    <div class="relative overflow-hidden rounded-lg aspect-video mb-4">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Gen%20AI%20Job%20Sim%20BCG%20" 
+                             alt="Gen AI Job Sim BCG " 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="text-neonBlue font-bold">View PDF</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1 truncate" title="Gen AI Job Sim BCG ">Gen AI Job Sim BCG </h3>
+                    <p class="text-gray-400 text-sm">PDF Document</p>
+                </div>
+                <!-- Certificate: Hackhazards participation -->
+                <div class="glass-card p-4 rounded-xl cursor-pointer hover:border-neonPurple transition-all duration-300 animate-float group"
+                     style="animation-delay: 0.5s;"
+                     onclick="openCertModal('./certs/Hackhazards_participation.pdf', 'Hackhazards participation', 'Certificate')">
+                    <div class="relative overflow-hidden rounded-lg aspect-video mb-4">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Hackhazards%20particip..." 
+                             alt="Hackhazards participation" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="text-neonPurple font-bold">View PDF</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1 truncate" title="Hackhazards participation">Hackhazards participation</h3>
+                    <p class="text-gray-400 text-sm">PDF Document</p>
+                </div>
+                <!-- Certificate: Hadloop 101 -->
+                <div class="glass-card p-4 rounded-xl cursor-pointer hover:border-neonBlue transition-all duration-300 animate-float group"
+                     style="animation-delay: 0.6000000000000001s;"
+                     onclick="openCertModal('./certs/Hadloop%20101.pdf', 'Hadloop 101', 'Certificate')">
+                    <div class="relative overflow-hidden rounded-lg aspect-video mb-4">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Hadloop%20101" 
+                             alt="Hadloop 101" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="text-neonBlue font-bold">View PDF</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1 truncate" title="Hadloop 101">Hadloop 101</h3>
+                    <p class="text-gray-400 text-sm">PDF Document</p>
+                </div>
+                <!-- Certificate: IBM Z Day AI & Data Badge -->
+                <div class="glass-card p-4 rounded-xl cursor-pointer hover:border-neonPurple transition-all duration-300 animate-float group"
+                     style="animation-delay: 0.7000000000000001s;"
+                     onclick="openCertModal('./certs/IBM%20Z%20Day%20AI%20%26%20Data%20Badge.pdf', 'IBM Z Day AI & Data Badge', 'Certificate')">
+                    <div class="relative overflow-hidden rounded-lg aspect-video mb-4">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=IBM%20Z%20Day%20AI%20%26%20Data%20..." 
+                             alt="IBM Z Day AI & Data Badge" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="text-neonPurple font-bold">View PDF</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1 truncate" title="IBM Z Day AI & Data Badge">IBM Z Day AI & Data Badge</h3>
+                    <p class="text-gray-400 text-sm">PDF Document</p>
+                </div>
+                <!-- Certificate: IBM Z Day SE Security -->
+                <div class="glass-card p-4 rounded-xl cursor-pointer hover:border-neonBlue transition-all duration-300 animate-float group"
+                     style="animation-delay: 0.8s;"
+                     onclick="openCertModal('./certs/IBM%20Z%20Day%20SE-Security.pdf', 'IBM Z Day SE Security', 'Certificate')">
+                    <div class="relative overflow-hidden rounded-lg aspect-video mb-4">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=IBM%20Z%20Day%20SE%20Securit..." 
+                             alt="IBM Z Day SE Security" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="text-neonBlue font-bold">View PDF</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1 truncate" title="IBM Z Day SE Security">IBM Z Day SE Security</h3>
+                    <p class="text-gray-400 text-sm">PDF Document</p>
+                </div>
+                <!-- Certificate: Intro to Gen AI -->
+                <div class="glass-card p-4 rounded-xl cursor-pointer hover:border-neonPurple transition-all duration-300 animate-float group"
+                     style="animation-delay: 0.9s;"
+                     onclick="openCertModal('./certs/Intro%20to%20Gen%20AI.pdf', 'Intro to Gen AI', 'Certificate')">
+                    <div class="relative overflow-hidden rounded-lg aspect-video mb-4">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Intro%20to%20Gen%20AI" 
+                             alt="Intro to Gen AI" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="text-neonPurple font-bold">View PDF</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1 truncate" title="Intro to Gen AI">Intro to Gen AI</h3>
+                    <p class="text-gray-400 text-sm">PDF Document</p>
+                </div>
+                <!-- Certificate: Introduction To Internet Of Things -->
+                <div class="glass-card p-4 rounded-xl cursor-pointer hover:border-neonBlue transition-all duration-300 animate-float group"
+                     style="animation-delay: 1.0s;"
+                     onclick="openCertModal('./certs/Introduction%20To%20Internet%20Of%20Things.pdf', 'Introduction To Internet Of Things', 'Certificate')">
+                    <div class="relative overflow-hidden rounded-lg aspect-video mb-4">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Introduction%20To%20Inte..." 
+                             alt="Introduction To Internet Of Things" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="text-neonBlue font-bold">View PDF</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1 truncate" title="Introduction To Internet Of Things">Introduction To Internet Of Things</h3>
+                    <p class="text-gray-400 text-sm">PDF Document</p>
+                </div>
+                <!-- Certificate: Lloyds Banking Group UXpdf -->
+                <div class="glass-card p-4 rounded-xl cursor-pointer hover:border-neonPurple transition-all duration-300 animate-float group"
+                     style="animation-delay: 1.1s;"
+                     onclick="openCertModal('./certs/Lloyds%20Banking%20Group%20UXpdf.pdf', 'Lloyds Banking Group UXpdf', 'Certificate')">
+                    <div class="relative overflow-hidden rounded-lg aspect-video mb-4">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Lloyds%20Banking%20Group..." 
+                             alt="Lloyds Banking Group UXpdf" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="text-neonPurple font-bold">View PDF</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1 truncate" title="Lloyds Banking Group UXpdf">Lloyds Banking Group UXpdf</h3>
+                    <p class="text-gray-400 text-sm">PDF Document</p>
+                </div>
+                <!-- Certificate: Product Management Job Sim EA -->
+                <div class="glass-card p-4 rounded-xl cursor-pointer hover:border-neonBlue transition-all duration-300 animate-float group"
+                     style="animation-delay: 1.2000000000000002s;"
+                     onclick="openCertModal('./certs/Product%20Management%20Job%20Sim%20EA.pdf', 'Product Management Job Sim EA', 'Certificate')">
+                    <div class="relative overflow-hidden rounded-lg aspect-video mb-4">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Product%20Management%20J..." 
+                             alt="Product Management Job Sim EA" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="text-neonBlue font-bold">View PDF</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1 truncate" title="Product Management Job Sim EA">Product Management Job Sim EA</h3>
+                    <p class="text-gray-400 text-sm">PDF Document</p>
+                </div>
+                <!-- Certificate: Project Management -->
+                <div class="glass-card p-4 rounded-xl cursor-pointer hover:border-neonPurple transition-all duration-300 animate-float group"
+                     style="animation-delay: 1.3s;"
+                     onclick="openCertModal('./certs/Project%20Management.pdf', 'Project Management', 'Certificate')">
+                    <div class="relative overflow-hidden rounded-lg aspect-video mb-4">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Project%20Management" 
+                             alt="Project Management" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="text-neonPurple font-bold">View PDF</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1 truncate" title="Project Management">Project Management</h3>
+                    <p class="text-gray-400 text-sm">PDF Document</p>
+                </div>
+                <!-- Certificate: Solution Architect Job Sim AWS -->
+                <div class="glass-card p-4 rounded-xl cursor-pointer hover:border-neonBlue transition-all duration-300 animate-float group"
+                     style="animation-delay: 1.4000000000000001s;"
+                     onclick="openCertModal('./certs/Solution%20Architect%20Job%20Sim%20AWS.pdf', 'Solution Architect Job Sim AWS', 'Certificate')">
+                    <div class="relative overflow-hidden rounded-lg aspect-video mb-4">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Solution%20Architect%20J..." 
+                             alt="Solution Architect Job Sim AWS" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="text-neonBlue font-bold">View PDF</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1 truncate" title="Solution Architect Job Sim AWS">Solution Architect Job Sim AWS</h3>
+                    <p class="text-gray-400 text-sm">PDF Document</p>
+                </div>
+                <!-- Certificate: UX Design Fundamentals -->
+                <div class="glass-card p-4 rounded-xl cursor-pointer hover:border-neonPurple transition-all duration-300 animate-float group"
+                     style="animation-delay: 1.5s;"
+                     onclick="openCertModal('./certs/UX%20Design%20Fundamentals.pdf', 'UX Design Fundamentals', 'Certificate')">
+                    <div class="relative overflow-hidden rounded-lg aspect-video mb-4">
+                        <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=UX%20Design%20Fundamenta..." 
+                             alt="UX Design Fundamentals" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="text-neonPurple font-bold">View PDF</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1 truncate" title="UX Design Fundamentals">UX Design Fundamentals</h3>
+                    <p class="text-gray-400 text-sm">PDF Document</p>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <button id="show-more-btn" onclick="toggleCertificates()" 
+                        class="px-8 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-sm text-white font-semibold transition-all transform hover:scale-105">
+                    Show More
+                </button>
+            </div>
+        </div></section>
+
     <!-- Achievements Section -->
     <section id="achievements" class="py-20 bg-black/30">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1032,7 +1398,7 @@
         });
 
         // Skills
-        gsap.utils.toArray("#skills .glass-card").forEach((card, i) => {
+        gsap.utils.toArray("#skills .skill-card-wrapper").forEach((card, i) => {
             gsap.from(card, {
                 scrollTrigger: {
                     trigger: card,
@@ -1112,14 +1478,107 @@
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
-                navbar.classList.add('shadow-lg');
-                navbar.style.background = 'rgba(5, 5, 5, 0.9)';
+                navbar.classList.add('scrolled');
             } else {
-                navbar.classList.remove('shadow-lg');
-                navbar.style.background = 'rgba(5, 5, 5, 0.7)';
+                navbar.classList.remove('scrolled');
             }
         });
     </script>
+
+
+    <!-- Certificate Modal -->
+    <div id="cert-modal"
+        class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+        onclick="closeCertModal(event)">
+        <div class="glass-card max-w-4xl w-full max-h-[90vh] overflow-auto rounded-2xl relative transform transition-all duration-300 scale-95 opacity-0"
+            id="cert-modal-content">
+            <button onclick="closeCertModal(event, true)"
+                class="absolute top-4 right-4 text-white/70 hover:text-white bg-black/50 hover:bg-black/70 rounded-full p-2 transition-colors z-10">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <div class="p-2 h-full">
+                <iframe id="cert-frame" src="" class="w-full h-[70vh] rounded-xl shadow-2xl border-0 bg-white"></iframe>
+            </div>
+            <div class="p-6 text-center">
+                <h3 id="cert-title" class="text-2xl font-bold text-white mb-2"></h3>
+                <p id="cert-issuer" class="text-neonBlue"></p>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Certificate Modal Logic
+        function openCertModal(imageSrc, title, issuer) {
+            const modal = document.getElementById('cert-modal');
+            const modalContent = document.getElementById('cert-modal-content');
+            const iframe = document.getElementById('cert-frame');
+            const titleEl = document.getElementById('cert-title');
+            const issuerEl = document.getElementById('cert-issuer');
+
+            iframe.src = imageSrc;
+            titleEl.textContent = title;
+            issuerEl.textContent = issuer;
+
+            modal.classList.remove('hidden');
+            // Small delay to allow display:block to apply before opacity transition
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeCertModal(event, force = false) {
+            if (force || event.target.id === 'cert-modal') {
+                const modal = document.getElementById('cert-modal');
+                const modalContent = document.getElementById('cert-modal-content');
+
+                modalContent.classList.remove('scale-100', 'opacity-100');
+                modalContent.classList.add('scale-95', 'opacity-0');
+
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = ''; // Restore scrolling
+                }, 300);
+            }
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', function (event) {
+            if (event.key === "Escape") {
+                const modal = document.getElementById('cert-modal');
+                if (!modal.classList.contains('hidden')) {
+                    closeCertModal(event, true);
+                }
+            }
+        });
+    
+        // Show More Certificates
+        // Show More Certificates
+        function toggleCertificates() {
+            const moreCerts = document.getElementById('more-certs');
+            const btn = document.getElementById('show-more-btn');
+            const isShowingMore = btn.innerText === 'Show Less';
+            
+            if (isShowingMore) {
+                // Hide
+                moreCerts.classList.remove('max-h-[5000px]', 'opacity-100', 'mt-8');
+                moreCerts.classList.add('max-h-0', 'opacity-0');
+                btn.innerText = 'Show More';
+                
+                // Scroll back to top of certificates
+                document.getElementById('certificates').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                // Show
+                moreCerts.classList.remove('max-h-0', 'opacity-0');
+                moreCerts.classList.add('max-h-[5000px]', 'opacity-100', 'mt-8');
+                btn.innerText = 'Show Less';
+            }
+        }
+</script>
+
 </body>
 
 </html>

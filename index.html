@@ -1391,7 +1391,9 @@
                     </div>
                     <div class="md:w-5/12 md:text-right order-3 md:order-1 md:pr-8 mt-2 md:mt-0">
                         <div class="glass-card p-4 rounded-lg">
-                            <p class="text-gray-300 text-sm">Working on a Bio-Mimetic Autonomous Underwater Vehicle (BAUV) to understand and analyse it's trajectory with Machine Learning and Reinforced Learning.</p>
+                            <p class="text-gray-300 text-sm">Working on a Bio-Mimetic Autonomous Underwater Vehicle
+                                (BAUV) to understand and analyse it's trajectory with Machine Learning and Reinforced
+                                Learning.</p>
                         </div>
                     </div>
                 </div>
@@ -1508,18 +1510,19 @@
                     <div class="p-6 relative z-10">
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-2xl font-bold text-white group-hover:text-neonBlue transition-colors">
-                                Electro-Hub</h3>
-                            <a href="https://github.com/SahasransuAcharjya/electro-hub.git" target="_blank"
-                                class="text-gray-400 hover:text-white"><i class="fab fa-github text-2xl"></i></a>
+                                DNA Cancer Classifier</h3>
+                            <a href="https://github.com/SahasransuAcharjya/dna-cancer-classifier.git" target="_blank" class="text-gray-400 hover:text-white"><i
+                                    class="fab fa-github text-2xl"></i></a>
                         </div>
-                        <p class="text-gray-400 mb-4 h-12">Electronics e-commerce and resource platform.</p>
+                        <p class="text-gray-400 mb-4 h-12">End-to-end Transformer pipeline achieving 89.7% accuracy
+                            classifying 5 cancer types from 44 gene expressions.</p>
                         <div class="flex flex-wrap gap-2 mt-4">
                             <span
-                                class="text-xs px-2 py-1 rounded bg-blue-900/30 text-blue-300 border border-blue-900">Next.js</span>
+                                class="text-xs px-2 py-1 rounded bg-blue-900/30 text-blue-300 border border-blue-900">Transformer</span>
                             <span
-                                class="text-xs px-2 py-1 rounded bg-blue-900/30 text-blue-300 border border-blue-900">Node.js</span>
+                                class="text-xs px-2 py-1 rounded bg-blue-900/30 text-blue-300 border border-blue-900">Python</span>
                         </div>
-                        <button onclick="openCaseStudy('electro-hub')" class="button mt-4 group/btn">
+                        <button onclick="openCaseStudy('dna-classifier')" class="button mt-4 group/btn">
                             <span class="text_button">View Case Study</span>
                             <span class="sparkle">
                                 <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="path">
@@ -2262,21 +2265,34 @@
                     </ul>
                 `
             },
-            'electro-hub': {
-                title: 'Electro-Hub',
-                techStack: ['Next.js', 'React', 'Stripe', 'Sanity.io'],
-                situation: 'Electronic components are often hard to find or overpriced for students and hobbyists.',
-                task: 'Build an affordable, user-friendly e-commerce platform dedicated to electronics and DIY resources.',
-                action: 'Developed a Next.js application with Sanity.io for easy content management. Integrated Stripe for secure payments. Created a community forum for project sharing.',
-                result: 'Launched with 100+ products. Monthly active users grew to 200+ within 3 months.',
+            'dna-classifier': {
+                title: 'DNA Cancer Classifier',
+                techStack: ['Python', 'Transformer', 'Streamlit', 'Pandas', 'Scikit-learn'],
+                situation: 'Cancer diagnosis from gene expression data is complex and often requires invasive procedures. Early and accurate classification is critical.',
+                task: 'Develop a high-accuracy classification model to identify 5 cancer types using only 44 gene expression markers.',
+                action: 'Implemented a Transformer-based architecture to capture long-range dependencies in gene data. Performed saliency analysis to identify key biomarkers. Built an interactive Streamlit dashboard for real-time predictions.',
+                result: 'Achieved 89.7% test accuracy, outperforming MLP baselines. Identified top biomarkers validated by medical literature.',
                 metrics: [
-                    { label: 'Products', value: '100+', color: 'text-green-400' },
-                    { label: 'MAU', value: '200+', color: 'text-blue-400' },
-                    { label: 'Load Time', value: '0.8s', color: 'text-purple-400' }
+                    { label: 'Test Accuracy', value: '89.7%', color: 'text-green-400' },
+                    { label: 'Cancer Types', value: '5', color: 'text-blue-400' },
+                    { label: 'Genes Analyzed', value: '44', color: 'text-purple-400' }
                 ],
-                specificTitle: 'Platform Features',
+                specificTitle: 'Results & Analysis',
                 specificContent: `
-                    <p class="text-gray-300">Features include real-time inventory tracking, user reviews, and a project showcase section.</p>
+                    <div class="space-y-8">
+                        <div class="flex flex-col items-center">
+                            <p class="text-gray-300 mb-4 text-center">Project Results Dashboard showing high accuracy across cancer types.</p>
+                            <div class="w-full rounded-lg overflow-hidden border border-gray-700 shadow-2xl group">
+                                <img src="images/DNA_Classifier/project_results_dashboard.png" alt="Results Dashboard" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500">
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <p class="text-gray-300 mb-4 text-center">Top Biomarker Genes identified by Saliency Analysis.</p>
+                            <div class="w-full rounded-lg overflow-hidden border border-gray-700 shadow-2xl group">
+                                <img src="images/DNA_Classifier/feature_importance_bar.png" alt="Feature Importance" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500">
+                            </div>
+                        </div>
+                    </div>
                 `
             }
         };

@@ -1511,8 +1511,8 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-2xl font-bold text-white group-hover:text-neonBlue transition-colors">
                                 DNA Cancer Classifier</h3>
-                            <a href="https://github.com/SahasransuAcharjya/dna-cancer-classifier.git" target="_blank" class="text-gray-400 hover:text-white"><i
-                                    class="fab fa-github text-2xl"></i></a>
+                            <a href="https://github.com/SahasransuAcharjya/dna-cancer-classifier.git" target="_blank"
+                                class="text-gray-400 hover:text-white"><i class="fab fa-github text-2xl"></i></a>
                         </div>
                         <p class="text-gray-400 mb-4 h-12">End-to-end Transformer pipeline achieving 89.7% accuracy
                             classifying 5 cancer types from 44 gene expressions.</p>
@@ -1577,19 +1577,23 @@
                     <div class="p-6 relative z-10">
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-2xl font-bold text-white group-hover:text-neonBlue transition-colors">
-                                BillBot</h3>
-                            <a href="https://github.com/SahasransuAcharjya/bill-parser.git" target="_blank"
-                                class="text-gray-400 hover:text-white"><i class="fab fa-github text-2xl"></i></a>
+                                Brain Tumor Detection</h3>
+                            <a href="https://github.com/SahasransuAcharjya/brain_tumor_detection_with_resnet50_-_grad-cam.git"
+                                target="_blank" class="text-gray-400 hover:text-white"><i
+                                    class="fab fa-github text-2xl"></i></a>
                         </div>
-                        <p class="text-gray-400 mb-4 h-12">Invoice parsing web app utilizing OCR technology.
+                        <p class="text-gray-400 mb-4 h-12">Classifies brain tumors (Glioma, Meningioma, Pituitary) using
+                            ResNet50 with Grad-CAM explainability.
                         </p>
                         <div class="flex flex-wrap gap-2 mt-4">
                             <span
                                 class="text-xs px-2 py-1 rounded bg-blue-900/30 text-blue-300 border border-blue-900">Python</span>
                             <span
-                                class="text-xs px-2 py-1 rounded bg-blue-900/30 text-blue-300 border border-blue-900">Tesseract</span>
+                                class="text-xs px-2 py-1 rounded bg-blue-900/30 text-blue-300 border border-blue-900">ResNet50</span>
+                            <span
+                                class="text-xs px-2 py-1 rounded bg-blue-900/30 text-blue-300 border border-blue-900">PyTorch</span>
                         </div>
-                        <button onclick="openCaseStudy('billbot')" class="button mt-4 group/btn">
+                        <button onclick="openCaseStudy('brain-tumor')" class="button mt-4 group/btn">
                             <span class="text_button">View Case Study</span>
                             <span class="sparkle">
                                 <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="path">
@@ -2244,25 +2248,34 @@
                     </div>
                 `
             },
-            'billbot': {
-                title: 'BillBot',
-                techStack: ['Python', 'Flask', 'Tesseract OCR', 'OpenCV', 'Regex'],
-                situation: 'Manual data entry from invoices is error-prone and time-consuming for accounting teams.',
-                task: 'Automate the extraction of key fields (Invoice Number, Date, Total Amount, Vendor) from scanned invoice images.',
-                action: 'Utilized Tesseract OCR with custom image preprocessing (grayscale, thresholding) to improve text clarity. Developed regex patterns to identify and extract specific fields from the unstructured text output.',
-                result: 'Automated 85% of data entry tasks. Reduced processing time from 2 minutes to 5 seconds per invoice.',
+            'brain-tumor': {
+                title: 'Brain Tumor Detection',
+                techStack: ['Python', 'ResNet50', 'PyTorch', 'Grad-CAM', 'OpenCV'],
+                situation: 'Brain tumors are complex conditions requiring precise diagnosis. Manual analysis of MRI scans can be time-consuming and prone to error.',
+                task: 'Develop an automated system to classify MRI scans into four categories (Glioma, Meningioma, Pituitary, No Tumor) and visualize the decision process.',
+                action: 'Employed Transfer Learning with a pre-trained ResNet50 model. Integrated Grad-CAM to generate heatmaps that highlight tumor regions, providing explainability for the model\'s predictions.',
+                result: 'Achieved high accuracy in multi-class classification. The Grad-CAM visualizations successfully highlighted irrelevant background noise vs actual tumor regions.',
                 metrics: [
-                    { label: 'Time Saved', value: '95%', color: 'text-green-400' },
-                    { label: 'Accuracy', value: '92%', color: 'text-blue-400' },
-                    { label: 'Processing Time', value: '5s', color: 'text-purple-400' }
+                    { label: 'Accuracy', value: '99%', color: 'text-green-400' },
+                    { label: 'Classes', value: '4', color: 'text-blue-400' },
+                    { label: 'Model', value: 'ResNet50', color: 'text-purple-400' }
                 ],
-                specificTitle: 'OCR Data Extraction Logic',
+                specificTitle: 'Explainability & Pipeline',
                 specificContent: `
-                    <ul class="list-disc list-inside text-gray-300 space-y-2">
-                        <li><strong>Preprocessing:</strong> Convert to grayscale -> Gaussian Blur -> Adaptive Thresholding.</li>
-                        <li><strong>OCR:</strong> Tesseract configured with psm 6 (Assume a single uniform block of text).</li>
-                        <li><strong>Parsing:</strong> Keyword search (e.g., "Total", "Date") + Regex extraction of values relative to keywords.</li>
-                    </ul>
+                    <div class="space-y-8">
+                        <div class="flex flex-col items-center">
+                            <p class="text-gray-300 mb-4 text-center">Grad-CAM Heatmap showing model focus areas.</p>
+                            <div class="w-full rounded-lg overflow-hidden border border-gray-700 shadow-2xl group">
+                                <img src="images/Brain_Tumor/grad-cam_detection.png" alt="Grad-CAM Detection" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500">
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <p class="text-gray-300 mb-4 text-center">Data Processing and Training Pipeline.</p>
+                            <div class="w-full rounded-lg overflow-hidden border border-gray-700 shadow-2xl group">
+                                <img src="images/Brain_Tumor/brain_pipeline.png" alt="Brain Tumor Pipeline" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500">
+                            </div>
+                        </div>
+                    </div>
                 `
             },
             'dna-classifier': {
